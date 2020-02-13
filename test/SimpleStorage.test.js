@@ -88,5 +88,18 @@ describe('Simple Storage Contract', () => {
         'value set must be able to get'
       );
     });
+    it('should have initial value of rollnumber as 0', async() => {
+      const output = await simpleStorageInstance.functions.rollnumber();
+      ///console.log({output});
+      assert.ok(output.eq(0),'RollNumber should be equal to 0 as it not initialized yet');
+    });
+    it('when update function is called, RollNumber storage should be update', async()=>{
+      const newRollNo = 345;
+      const tx = await simpleStorageInstance.functions.updateRollNumber(newRollNo);
+      await tx.wait();
+
+      const output = await simpleStorageInstance.functions.rollnumber();
+      assert.ok(output.eq(newRollNo),'RollNumber storage should be update with new rollnumber');
+    });
   });
 });
